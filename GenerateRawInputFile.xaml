@@ -5,7 +5,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1240,4768</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1240,5620</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>GenerateRawInputFile_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="32">
@@ -76,7 +76,7 @@
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="GenerateRawInputFile" sap:VirtualizedContainerService.HintSize="699,4703" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="GenerateRawInputFile" sap:VirtualizedContainerService.HintSize="699,5555" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Int32" Name="inputFilePassword" />
       <Variable x:TypeArguments="sd:DataTable" Name="dtEPIC_Payers" />
@@ -125,13 +125,13 @@
         </InArgument>
       </ui:ReadRange.Range>
     </ui:ReadRange>
-    <ui:ForEach x:TypeArguments="x:Object" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="657,4130" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[Directory.GetFiles(&quot;C:\Availity_CheckFiles\Input\&quot;)]">
+    <ui:ForEach x:TypeArguments="x:Object" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="657,4982" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[Directory.GetFiles(&quot;C:\Availity_CheckFiles\Input\&quot;,&quot;*.xlsx&quot;,SearchOption.AllDirectories).Where(Function(s) Not s.Contains(“~$”))]">
       <ui:ForEach.Body>
         <ActivityAction x:TypeArguments="x:Object">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:Object" Name="item" />
           </ActivityAction.Argument>
-          <Sequence sap:VirtualizedContainerService.HintSize="621,4006" sap2010:WorkflowViewState.IdRef="Sequence_4">
+          <Sequence sap:VirtualizedContainerService.HintSize="621,4858" sap2010:WorkflowViewState.IdRef="Sequence_4">
             <Sequence.Variables>
               <Variable x:TypeArguments="x:String" Name="columnsIndex" />
               <Variable x:TypeArguments="x:Int32" Name="colIndex" />
@@ -185,6 +185,7 @@
                 </scg:List>
               </ui:FilterDataTable.SelectColumns>
             </ui:FilterDataTable>
+            <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="579,61" sap2010:WorkflowViewState.IdRef="WriteLine_5" Text="[item.ToString]" />
             <ui:ReadRange AddHeaders="False" DataTable="[dtInputData]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="579,87" sap2010:WorkflowViewState.IdRef="ReadRange_6" Password="[inputFilePassword.ToString]" PreserveFormat="True" SheetName="Sheet1" WorkbookPath="[item.ToString]">
               <ui:ReadRange.Range>
                 <InArgument x:TypeArguments="x:String">
@@ -228,7 +229,7 @@
                 </ActivityAction>
               </ui:ForEach.Body>
             </ui:ForEach>
-            <ui:AddDataColumn x:TypeArguments="x:Object" AllowDBNull="{x:Null}" AutoIncrement="{x:Null}" Column="{x:Null}" DefaultValue="{x:Null}" MaxLength="{x:Null}" Unique="{x:Null}" ColumnName="Transaction_Number" DataTable="[dtInputData]" DisplayName="Add Data Column" sap:VirtualizedContainerService.HintSize="579,185" sap2010:WorkflowViewState.IdRef="AddDataColumn`1_2" />
+            <ui:AddDataColumn x:TypeArguments="x:Int32" AllowDBNull="{x:Null}" AutoIncrement="{x:Null}" Column="{x:Null}" DefaultValue="{x:Null}" MaxLength="{x:Null}" Unique="{x:Null}" ColumnName="Transaction_Number" DataTable="[dtInputData]" DisplayName="Add Data Column" sap:VirtualizedContainerService.HintSize="579,185" sap2010:WorkflowViewState.IdRef="AddDataColumn`1_3" />
             <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="[idxInput]" DataTable="[dtInputData]" DisplayName="For Each Row in Data Table" sap:VirtualizedContainerService.HintSize="579,1161" sap2010:WorkflowViewState.IdRef="ForEachRow_7">
               <ui:ForEachRow.Body>
                 <ActivityAction x:TypeArguments="sd:DataRow">
@@ -326,6 +327,23 @@
                 </scg:List>
               </ui:JoinDataTables.Arguments>
             </ui:JoinDataTables>
+            <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[dtoutputData]" DisplayName="For Each Row in Data Table" sap:VirtualizedContainerService.HintSize="579,233" sap2010:WorkflowViewState.IdRef="ForEachRow_8">
+              <ui:ForEachRow.Body>
+                <ActivityAction x:TypeArguments="sd:DataRow">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="sd:DataRow" Name="CurrentRow" />
+                  </ActivityAction.Argument>
+                  <Assign sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_28">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Object">[CurrentRow("CHC Payer Name")]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Object">[CurrentRow("CHC Payer Name_1").ToString]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </ActivityAction>
+              </ui:ForEachRow.Body>
+            </ui:ForEachRow>
             <ui:FilterDataTable DataTable="[dtoutputData]" DisplayName="Filter Data Table" FilterRowsMode="Keep" sap:VirtualizedContainerService.HintSize="579,160" sap2010:WorkflowViewState.IdRef="FilterDataTable_3" OutputDataTable="[dtoutputData]" SelectColumnsMode="Remove">
               <ui:FilterDataTable.Filters>
                 <scg:List x:TypeArguments="ui:FilterOperationArgument" Capacity="4">
@@ -339,9 +357,27 @@
               <ui:FilterDataTable.SelectColumns>
                 <scg:List x:TypeArguments="InArgument" Capacity="4">
                   <InArgument x:TypeArguments="x:String">["EPIC- Payer Name"]</InArgument>
+                  <InArgument x:TypeArguments="x:String">["CHC Payer Name_1"]</InArgument>
                 </scg:List>
               </ui:FilterDataTable.SelectColumns>
             </ui:FilterDataTable>
+            <ui:FilterDataTable DataTable="[dtoutputData]" DisplayName="Filter Data Table" FilterRowsMode="Keep" sap:VirtualizedContainerService.HintSize="579,160" sap2010:WorkflowViewState.IdRef="FilterDataTable_5" OutputDataTable="[dtoutputData]" SelectColumnsMode="Keep">
+              <ui:FilterDataTable.Filters>
+                <scg:List x:TypeArguments="ui:FilterOperationArgument" Capacity="4">
+                  <ui:FilterOperationArgument Operand="{x:Null}" BooleanOperator="And" Operator="NOTEMPTY">
+                    <ui:FilterOperationArgument.Column>
+                      <InArgument x:TypeArguments="x:String">["PB Primary Cov Payor Name"]</InArgument>
+                    </ui:FilterOperationArgument.Column>
+                  </ui:FilterOperationArgument>
+                </scg:List>
+              </ui:FilterDataTable.Filters>
+              <ui:FilterDataTable.SelectColumns>
+                <scg:List x:TypeArguments="InArgument" Capacity="4">
+                  <x:Null />
+                </scg:List>
+              </ui:FilterDataTable.SelectColumns>
+            </ui:FilterDataTable>
+            <ui:SortDataTable ColumnIndex="{x:Null}" DataColumn="{x:Null}" ColumnName="Transaction_Number" DataTable="[dtoutputData]" DisplayName="Sort Data Table" sap:VirtualizedContainerService.HintSize="579,238" sap2010:WorkflowViewState.IdRef="SortDataTable_1" Order="Ascending" OutputDataTable="[dtoutputData]" SortOrder="Ascending" />
             <ui:WriteRange AddHeaders="True" DataTable="[dtoutputData]" DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="579,115" sap2010:WorkflowViewState.IdRef="WriteRange_2" SheetName="Output" StartingCell="A1" WorkbookPath="[outputFileName]" />
             <ui:ExcelApplicationScope CreateNewFile="False" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="579,188" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_5" InstanceCachePeriod="3000" Password="[inputFilePassword.ToString]" WorkbookPath="[item.ToString]">
               <ui:ExcelApplicationScope.Body>
